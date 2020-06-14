@@ -1,13 +1,16 @@
 #include <vector>
 #include <unordered_set>
 
-
 using namespace std;
 
 class Solution {
 public:
-    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> dict(wordList.begin(), wordList.end()), head, tail, *phead, *ptail;
+    int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
+        unordered_set<string> dict(wordList.begin(), wordList.end());
+        unordered_set<string> head;
+        unordered_set<string> tail;
+        unordered_set<string> *phead;
+        unordered_set<string> *ptail;
         if (dict.find(endWord) == dict.end()) {
             return 0;
         }
@@ -23,13 +26,13 @@ public:
                 ptail = &head;
             }
             unordered_set<string> temp;
-            for (auto it = phead -> begin(); it != phead -> end(); it++) {    
+            for (auto it = phead->begin(); it != phead->end(); ++it) {
                 string word = *it;
                 for (int i = 0; i < word.size(); i++) {
                     char t = word[i];
-                    for (int j = 0; j < 26; j++) {
+                    for (int j = 0; j < 26; ++j) {
                         word[i] = 'a' + j;
-                        if (ptail -> find(word) != ptail -> end()) {
+                        if (ptail->find(word) != ptail->end()) {
                             return ladder;
                         }
                         if (dict.find(word) != dict.end()) {
@@ -41,7 +44,7 @@ public:
                 }
             }
             ladder++;
-            phead -> swap(temp);
+            phead->swap(temp);
         }
         return 0;
     }
