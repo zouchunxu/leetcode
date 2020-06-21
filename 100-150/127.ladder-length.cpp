@@ -1,41 +1,54 @@
 #include <vector>
 #include <unordered_set>
+#include <string>
 
 using namespace std;
 
-class Solution {
+class Solution
+{
 public:
-    int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
+    int ladderLength(string beginWord, string endWord, vector<string> &wordList)
+    {
         unordered_set<string> dict(wordList.begin(), wordList.end());
         unordered_set<string> head;
         unordered_set<string> tail;
         unordered_set<string> *phead;
         unordered_set<string> *ptail;
-        if (dict.find(endWord) == dict.end()) {
+        if (dict.find(endWord) == dict.end())
+        {
             return 0;
         }
         head.insert(beginWord);
         tail.insert(endWord);
         int ladder = 2;
-        while (!head.empty() && !tail.empty()) {
-            if (head.size() < tail.size()) {
+        while (!head.empty() && !tail.empty())
+        {
+            if (head.size() < tail.size())
+            {
                 phead = &head;
                 ptail = &tail;
-            } else {
+            }
+            else
+            {
                 phead = &tail;
                 ptail = &head;
             }
             unordered_set<string> temp;
-            for (auto it = phead->begin(); it != phead->end(); ++it) {
+            for (auto it = phead->begin(); it != phead->end(); ++it)
+            {
                 string word = *it;
-                for (int i = 0; i < word.size(); i++) {
+                for (int i = 0; i < word.size(); i++)
+                {
                     char t = word[i];
-                    for (int j = 0; j < 26; ++j) {
+                    for (int j = 0; j < 26; ++j)
+                    {
                         word[i] = 'a' + j;
-                        if (ptail->find(word) != ptail->end()) {
+                        if (ptail->find(word) != ptail->end())
+                        {
                             return ladder;
                         }
-                        if (dict.find(word) != dict.end()) {
+                        if (dict.find(word) != dict.end())
+                        {
                             temp.insert(word);
                             dict.erase(word);
                         }
