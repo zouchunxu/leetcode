@@ -1,16 +1,19 @@
 #include <vector>
 #include <set>
+#include <iostream>
 
 using namespace std;
 
-class Solution
+class Solution1
 {
 public:
     int maxSumSubmatrix(vector<vector<int>> &matrix, int k)
     {
         if (matrix.empty())
             return 0;
-        int row = matrix.size(), col = matrix[0].size(), res = INT_MIN;
+        int row = matrix.size();
+        int col = matrix[0].size();
+        int res = INT_MIN;
         for (int l = 0; l < col; l++)
         {
             vector<int> sums(row, 0);
@@ -41,37 +44,60 @@ public:
     }
 };
 
-class Solution1
+class Solution
 {
 public:
     int maxSumSubmatrix(vector<vector<int>> &matrix, int k)
     {
-        if (matrix.empty())
+        if (matrix.size() < 1)
             return 0;
-        int row = matrix.size(), col = matrix[0].size(), res = INT_MIN;
-        for (int l = 0; l < col; ++l)
+        int row = matrix.size();
+        int col = matrix[0].size();
+        int res = INT_MIN;
+        for (int l = 0; l < col; l++)
         {
             vector<int> sums(row, 0);
-            for (int r = l; r < col; ++r)
+            for (int r = l; r < col; r++)
             {
-                for (int i = 0; i < row; ++i)
+                for (int i = 0; i < row; i++)
                 {
                     sums[i] += matrix[i][r];
                 }
-                set<int> accuSet;
-                accuSet.insert(0);
-                int curSum = 0, curMax = INT_MIN;
+
+                set<int> currSet;
+                currSet.insert(0);
+                int currSum = 0;
+                int currM = INT_MIN;
+
                 for (int sum : sums)
                 {
-                    curSum += sum;
-                    set<int>::iterator it = accuSet.lower_bound(curSum - k);
-                    if (it != accuSet.end())
-                        curMax = max(curMax, curSum - *it);
-                    accuSet.insert(curSum);
+                    currSum += sum;
+                    set<int>::iterator it = currSet.lower_bound(currSum - k);
+                    if (it != currSet.end())
+                    {
+                        currM = max(currM, currSum - *it);
+                    }
+                    currSet.insert(currSum);
                 }
-                res = max(res, curMax);
+                res = max(res, currM);
             }
         }
         return res;
     }
 };
+
+int main()
+{
+    set<int> s;
+    s.insert(6);
+    s.insert(20);
+    s.insert(11);
+
+    s.insert(30);
+    auto it = s.lower_bound(12);
+    cout << *it << endl;
+    // vector<vector<int>> v{{1, 0, 1}, {0, -2, 3}};
+    // int k = 2;
+    // Solution s;
+    // cout << s.maxSumSubmatrix(v, k) << endl;
+}
