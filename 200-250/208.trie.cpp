@@ -78,8 +78,6 @@ int main()
     trie.search("app");     // returns false
     cout << endl ;
     cout << trie.startsWith("apa") << endl; // returns true
-    // trie.insert("app");
-    // trie.search("app"); // returns true
 }
 
 /**
